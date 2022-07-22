@@ -22,3 +22,11 @@ The following information will be kept track of by the application:
     Before wanting to go into computer science, I was always extremely interested in true crime and law enforcement. 
     To this day, I still start every morning and end every day by listening to true crime podcasts. I am fascinated 
     by anything crime related, and this project directly dives into the management system for criminals.
+
+## User Stories
+
+- As a user, I want to be able to sign in as an admin
+- As a user, I want to be able to sign up as an admin
+- As a user, I want to be able to add an arbitrary number of criminal profile to a list of profiles
+- As a user, I want to be able to edit someone's criminal record
+- As a user, I want to be able to view all records of all criminals
