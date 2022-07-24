@@ -1,32 +1,32 @@
-# Criminal Record Management System Project
+# BetBank Project
 
 ## What will the application do?
 
-    The application will keep track of a list of criminals and their criminal record. It will let every 
-    police officer know when a criminal is released and also keeps track of different reports coming in
+    The application is meant to simulate a banking app, allowing users to check their account balance, deposit money,
+    or withdraw money. Instead of it being for a regular bank account, it will be an account solely used for online 
+    sports betting with "fake money" or credits.
 
 The following information will be kept track of by the application:
-- Full name
-- Gender
-- Age
-- Nationality
-- Type of offense
-- Case Number
-- Jail term
+
+- Name
+- Account ID
+- Account balance
+- Deposits
+- Withdrawals
+- Previous transaction
 
 ## Who will use it?
-    It will be used by law enforcement/police officers. There will be an admin login option for police officers 
-    to add criminals or edit criminal profiles
+    It will be used by users aged 19+ who have a want to do sports betting without the risk of losing real money
 
 ## Why is this project of interest to me?
-    Before wanting to go into computer science, I was always extremely interested in true crime and law enforcement. 
-    To this day, I still start every morning and end every day by listening to true crime podcasts. I am fascinated 
-    by anything crime related, and this project directly dives into the management system for criminals.
+    With the changes that COVID has brought, I have realized an increasing popularity in online gambling, espcially
+    online sports betting. I have many friends who have gotten really into sports betting recently and as a result
+    have lost a substantial amount of money. With this credit system, they will be able to keep track of how well their
+    bets are doing and have fun without losing real money.
 
 ## User Stories
 
-- As a user, I want to be able to sign in as an admin
-- As a user, I want to be able to sign up as an admin
-- As a user, I want to be able to add an arbitrary number of criminal profile to a list of profiles
-- As a user, I want to be able to edit someone's criminal record
-- As a user, I want to be able to view all records of all criminals
+- As a user, I want to be able to check my account balance 
+- As a user, I want to be able to perform an arbitrary number of transactions from my account
+- As a user, I want to be able to withdraw money from my account
+- As a user, I want to be able to see what my previous transaction was
