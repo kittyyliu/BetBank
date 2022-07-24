@@ -28,5 +28,5 @@ The following information will be kept track of by the application:
 
 - As a user, I want to be able to check my account balance 
 - As a user, I want to be able to place a bet on a sport
+- - As a user, I want to be able to choose what sport I bet on
 - As a user, I want to be able to deposit credits in my account
-- As a user, I want to be able to see a list of my transactions

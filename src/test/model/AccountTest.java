@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AccountTest {
+    private Account a0;
     private Account a1;
     private Account a2;
     private Account a3;
@@ -16,6 +17,7 @@ class AccountTest {
 
     @BeforeEach
     void setup() {
+        a0 = new Account("seaturtle", -2);
         a1 = new Account("moneymaker222", 0);
         a2 = new Account("ilovebetting3", 1);
         a3 = new Account("itskitliu", 100);
@@ -25,8 +27,12 @@ class AccountTest {
 
     @Test
     void testAccountConstructor() {
+        assertEquals(0, a0.getBalance());
+        assertEquals("seaturtle", a0.getUsername());
         assertEquals(0, a1.getBalance());
         assertEquals("moneymaker222", a1.getUsername());
+        assertEquals(100, a3.getBalance());
+        assertEquals("itskitliu", a3.getUsername());
     }
 
 

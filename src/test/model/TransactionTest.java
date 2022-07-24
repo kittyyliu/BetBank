@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BetTest {
+public class TransactionTest {
 
     private Transaction transaction1;
     private Transaction transaction2;
@@ -13,16 +13,16 @@ public class BetTest {
 
     @BeforeEach
     void setup() {
-        transaction1 = new Transaction("a", 200, "baseball");
-        transaction2 = new Transaction("b", 1, "tennis");
-        transaction3 = new Transaction("c", 1000, "badminton");
+        transaction1 = new Transaction("abc123", 200, "baseball");
+        transaction2 = new Transaction("abc1", 1, "tennis");
+        transaction3 = new Transaction("abc23", 1000, "badminton");
     }
 
     @Test
     void testGetTransactionID() {
-        assertEquals("a", transaction1.getTransactionID());
-        assertEquals("a", transaction1.getTransactionID());
-        assertEquals("a", transaction1.getTransactionID());
+        assertEquals("abc123", transaction1.getTransactionID());
+        assertEquals("abc1", transaction2.getTransactionID());
+        assertEquals("abc23", transaction3.getTransactionID());
     }
 
     @Test

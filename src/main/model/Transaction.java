@@ -7,7 +7,7 @@ public class Transaction {
     private String transactionType;
 
     // MODIFIES: this
-    // EFFECTS: creates a new transaction
+    // EFFECTS: creates new transaction
     public Transaction(String id, int amount, String transaction) {
         transactionID = id;
         transactionAmount = amount;

@@ -41,7 +41,7 @@ public class BetBank {
 
     // MODIFIES: this
     // EFFECTS: processes user command
-    private void processCommand(String command) {
+    private void processCommand(String command) throws InsufficientFundsException {
         if (command.equals("d")) {
             doDeposit();
         } else if (command.equals("b")) {
@@ -82,6 +82,9 @@ public class BetBank {
             Transaction b = new Transaction("abc123", amount, "Deposit");
             int credits = amount;
             System.out.println("Your " + credits + " credits have been successfully deposited!\n");
+            account.deposit(amount);
+            account.addTransaction(b);
+            showBalance(account);
         } else {
             System.out.println("Invalid deposit amount. Please enter a positive number to deposit\n");
         }
@@ -89,26 +92,30 @@ public class BetBank {
 
     // MODIFIES: this
     // EFFECTS: conducts a bet transaction
-    private void doBet() {
+    private void doBet() throws InsufficientFundsException {
         System.out.print("How much would you like to bet?  $");
         int amount = input.nextInt();
-
 
         if (amount <= 0) {
             System.out.println("You must bet a positive amount!\n");
         } else if (account.getBalance() < amount) {
             System.out.println("Insufficient account balance. Failed to place bet :(");
-            String msg = "Your account balance is currently $";
-            String balance = String.valueOf(account.getBalance());
-            System.out.println(msg + balance);
         } else {
             displayBetOptions();
             input = new Scanner(System.in);
             String type = input.nextLine();
             Transaction t = new Transaction("abc123", amount, type);
-            String msg2 = (t.getBetType());
-            String msg3 = String.valueOf((t.getTransactionAmount()));
-            System.out.println("Your $" + msg3 + " bet on " + msg2 + " has been successfully placed!\n");
+            if (type.equals("basketball") | type.equals("baseball") | type.equals("tennis") | type.equals("hockey")
+                    | type.equals("badminton")) {
+                String betType = type;
+                String betAmount = String.valueOf(amount);
+                System.out.println("Your bet of $" + betAmount + " on " + betType + " has been successfully placed");
+                account.bet(amount);
+                account.addTransaction(t);
+                showBalance(account);
+            } else {
+                System.out.println("Selection is not valid");
+            }
         }
     }
 
