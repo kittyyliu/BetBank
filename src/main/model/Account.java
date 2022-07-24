@@ -3,6 +3,7 @@ package model;
 import java.util.LinkedList;
 
 // a user's account with their username, balance, account ID, and transactions
+// code referenced from: TellerApp
 public class Account {
     private String username;
     private int balance;
