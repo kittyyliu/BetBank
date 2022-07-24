@@ -3,22 +3,34 @@ package model;
 import java.util.LinkedList;
 
 // a user's account with their username, balance, account ID, and transactions
-// code referenced from: TellerApp
+// Code referenced from: TellerApp
 public class Account {
     private String username;
     private int balance;
     private LinkedList<Transaction> transactions = new LinkedList<>();
 
+    // REQUIRES: name has a non-zero length
+    // EFFECTS: name of account is name; if initialBalance >=0 then balance on account is initialBalance,
+    // otherwise balance is zero
     public Account(String name, int initialBalance) {
         this.username = name;
-        this.balance = initialBalance;
+        if (initialBalance >= 0) {
+            balance = initialBalance;
+        } else {
+            balance = 0;
+        }
     }
 
+    // REQUIRES: amount > 0
+    // MODIFIES: this
+    // EFFECTS: add given amount to account balance, new balance is returned
     public int deposit(int amount) {
         balance = getBalance() + amount;
         return balance;
     }
 
+    // MODIFIES: this
+    // EFFECTS: amount is withdrawn from account and bet on a sport, updated balance is returned
     public int bet(int amount) throws InsufficientFundsException {
         if (amount <= getBalance()) {
             balance = getBalance() - amount;
@@ -28,10 +40,13 @@ public class Account {
         }
     }
 
-    public void addBet(Transaction transaction) {
+    // MODIFIES: this
+    // EFFECTS: add a transaction to list of transactions
+    public void addTransaction(Transaction transaction) {
         transactions.add(transaction);
     }
 
+    // EFFECTS: returns list of transactions previously done
     public LinkedList<Transaction> getBettingHistory() {
         return transactions;
     }

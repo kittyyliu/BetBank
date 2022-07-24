@@ -27,6 +27,6 @@ The following information will be kept track of by the application:
 ## User Stories
 
 - As a user, I want to be able to check my account balance 
-- As a user, I want to be able to perform an arbitrary number of transactions from my account
-- As a user, I want to be able to withdraw money from my account
-- As a user, I want to be able to see what my previous transaction was
+- As a user, I want to be able to place a bet on a sport
+- As a user, I want to be able to deposit credits in my account
+- As a user, I want to be able to see a list of my transactions

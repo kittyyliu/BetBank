@@ -6,14 +6,19 @@ import model.InsufficientFundsException;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 
+// UI based on TellerApp
+// BetBank application
 public class BetBank {
     private Scanner input;
     private Account account;
 
+    // EFFECTS: runs the bank application
     public BetBank() throws FileNotFoundException, InsufficientFundsException {
         runBetBank();
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user input
     private void runBetBank() throws InsufficientFundsException {
         boolean keepGoing = true;
         String command = null;
@@ -34,6 +39,8 @@ public class BetBank {
         System.out.println("\nThank you, goodbye!");
     }
 
+    // MODIFIES: this
+    // EFFECTS: processes user command
     private void processCommand(String command) {
         if (command.equals("d")) {
             doDeposit();
@@ -48,11 +55,14 @@ public class BetBank {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: initializes accounts
     private void init() {
         account = new Account("MONEYMAKER222", 100);
         input = new Scanner(System.in);
     }
 
+    // EFFECTS: displays menu of options to user
     private void displayMenu() {
         System.out.println("\nHello! Welcome to BetBank :)\nPlease select an option from the following:");
         System.out.println("\nc -> check your current balance");
@@ -62,6 +72,8 @@ public class BetBank {
         System.out.println("\nq -> quit\n");
     }
 
+    // MODIFIES: this
+    // EFFECTS: conducts a deposit transaction
     private void doDeposit() {
         System.out.print("How much would you like to deposit?  $");
         int amount = input.nextInt();
@@ -75,6 +87,8 @@ public class BetBank {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: conducts a bet transaction
     private void doBet() {
         System.out.print("How much would you like to bet?  $");
         int amount = input.nextInt();
@@ -98,16 +112,19 @@ public class BetBank {
         }
     }
 
+    // EFFECTS: prints account's current balance to the screen
     private void showBalance(Account account) {
         String msg1 = String.valueOf(account.getBalance());
         String msg2 = "Your current account balance is: $";
         System.out.println(msg2 + msg1);
     }
 
+    // EFFECTS: prints account's transaction history to the screen
     private void showTransactionHistory(Account account) {
         System.out.println(account.getBettingHistory());
     }
 
+    // EFFECTS: displays sports bet options to user
     private void displayBetOptions() {
         System.out.println("\nWhat sport would you like to bet on? \nPlease select an option from the following:");
         System.out.println("\nbasketball");

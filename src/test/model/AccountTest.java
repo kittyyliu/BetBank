@@ -91,7 +91,7 @@ class AccountTest {
     @Test
     void testAddOneBet() {
         Transaction transaction = new Transaction("abc", 10, "basketball bet");
-        a2.addBet(transaction);
+        a2.addTransaction(transaction);
         LinkedList<Transaction> oneTransaction = new LinkedList<>();
         oneTransaction.add(transaction);
         assertEquals(oneTransaction, a2.getBettingHistory());
@@ -103,10 +103,10 @@ class AccountTest {
         Transaction transaction2 = new Transaction("b", 2, "deposit");
         Transaction transaction3 = new Transaction("c", 3, "hockey bet");
         Transaction transaction4 = new Transaction("d", 4, "tennis bet");
-        a5.addBet(transaction1);
-        a5.addBet(transaction2);
-        a5.addBet(transaction3);
-        a5.addBet(transaction4);
+        a5.addTransaction(transaction1);
+        a5.addTransaction(transaction2);
+        a5.addTransaction(transaction3);
+        a5.addTransaction(transaction4);
         LinkedList<Transaction> multipleTransactions = new LinkedList<>();
         multipleTransactions.add(transaction1);
         multipleTransactions.add(transaction2);
