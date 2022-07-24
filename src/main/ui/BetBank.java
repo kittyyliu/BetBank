@@ -99,7 +99,7 @@ public class BetBank {
         if (amount <= 0) {
             System.out.println("You must bet a positive amount!\n");
         } else if (account.getBalance() < amount) {
-            System.out.println("Insufficient account balance. Failed to place bet :(");
+            System.out.println("Insufficient account balance. Unable to place bet :(");
         } else {
             displayBetOptions();
             input = new Scanner(System.in);
