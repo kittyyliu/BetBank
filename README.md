@@ -8,12 +8,10 @@
 
 The following information will be kept track of by the application:
 
-- Name
-- Account ID
 - Account balance
 - Deposits
-- Withdrawals
-- Previous transaction
+- Bets
+- Previous transactions
 
 ## Who will use it?
     It will be used by users aged 19+ who have a want to do sports betting without the risk of losing real money
@@ -28,5 +26,5 @@ The following information will be kept track of by the application:
 
 - As a user, I want to be able to check my account balance 
 - As a user, I want to be able to place a bet on a sport
-- - As a user, I want to be able to choose what sport I bet on
+- As a user, I want to be able to choose what sport I bet on
 - As a user, I want to be able to deposit credits in my account

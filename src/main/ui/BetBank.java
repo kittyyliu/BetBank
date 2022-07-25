@@ -6,7 +6,8 @@ import model.InsufficientFundsException;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 
-// UI based on TellerApp
+// UI code based on TellerApp
+
 // BetBank application
 public class BetBank {
     private Scanner input;
