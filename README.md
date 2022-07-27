@@ -28,3 +28,5 @@ The following information will be kept track of by the application:
 - As a user, I want to be able to place a bet on a sport
 - As a user, I want to be able to choose what sport I bet on
 - As a user, I want to be able to deposit credits in my account
+- As a user, I want to be able to save my account details to file
+- As a user, I want to be able to retrieve my previous account details from file
