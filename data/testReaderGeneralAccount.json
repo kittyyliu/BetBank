@@ -1,0 +1,21 @@
+{
+  "balance": 0,
+  "username": "MONEYMAKER222",
+  "transactions": [
+    {
+      "transactionAmount": 300,
+      "transactionID": "abc123",
+      "transactionType": "Deposit"
+    },
+    {
+      "transactionAmount": 200,
+      "transactionID": "abc123",
+      "transactionType": "Deposit"
+    },
+    {
+      "transactionAmount": 100,
+      "transactionID": "abc123",
+      "transactionType": "tennis"
+    }
+  ]
+}

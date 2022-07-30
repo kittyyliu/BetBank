@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.LinkedList;
 
 // a user's account with their username, balance, account ID, and transactions
@@ -59,4 +62,22 @@ public class Account {
         return balance;
     }
 
+    // EFFECTS: returns Account as a JSON object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("username", username);
+        json.put("balance", balance);
+        json.put("transactions", transactionsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns transactions in account as a JSON array
+    private JSONArray transactionsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Transaction t: transactions) {
+            jsonArray.put(t.toJson());
+        }
+        return jsonArray;
+    }
 }

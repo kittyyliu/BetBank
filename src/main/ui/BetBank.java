@@ -1,17 +1,25 @@
 package ui;
 
+import persistence.JsonReader;
+import persistence.JsonWriter;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import model.Account;
 import model.Transaction;
 import model.InsufficientFundsException;
-import java.util.Scanner;
-import java.io.FileNotFoundException;
+import java.io.*;
+
+import org.json.*;
 
 // UI code based on TellerApp
 
 // BetBank application
 public class BetBank {
+    private static final String JSON_STORE = "./data/account.json";
     private Scanner input;
     private Account account;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the bank application
     public BetBank() throws FileNotFoundException, InsufficientFundsException {
@@ -51,6 +59,10 @@ public class BetBank {
             showBalance(account);
         } else if (command.equals("t")) {
             showTransactionHistory(account);
+        } else if (command.equals("s")) {
+            saveAccount();
+        } else if (command.equals("l")) {
+            loadAccount();
         } else {
             System.out.println("Selection is not valid");
         }
@@ -61,6 +73,8 @@ public class BetBank {
     private void init() {
         account = new Account("MONEYMAKER222", 100);
         input = new Scanner(System.in);
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
     }
 
     // EFFECTS: displays menu of options to user
@@ -70,6 +84,8 @@ public class BetBank {
         System.out.println("\nd -> deposit credits to bet");
         System.out.println("\nb -> bet from account");
         System.out.println("\nt -> show transaction history");
+        System.out.println("\ns -> save account to file");
+        System.out.println("\nl -> load account from file");
         System.out.println("\nq -> quit\n");
     }
 
@@ -140,5 +156,28 @@ public class BetBank {
         System.out.println("\ntennis");
         System.out.println("\nhockey");
         System.out.println("\nbadminton\n");
+    }
+
+    // EFFECTS: saves account to file
+    private void saveAccount() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(account);
+            jsonWriter.close();
+            System.out.println("Saved " + account.getUsername() + " to " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads account from file
+    private void loadAccount() {
+        try {
+            account = jsonReader.read();
+            System.out.println("Loaded " + account.getUsername() + " from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 }

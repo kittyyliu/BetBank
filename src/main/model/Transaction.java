@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 // A transaction that contains a transaction ID, a transaction amount, and transaction type
 public class Transaction {
     private String transactionID;
@@ -24,5 +26,13 @@ public class Transaction {
 
     public String getBetType() {
         return transactionType;
+    }
+
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("transactionID", transactionID);
+        json.put("transactionAmount", transactionAmount);
+        json.put("transactionType", transactionType);
+        return json;
     }
 }
