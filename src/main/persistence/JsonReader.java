@@ -11,15 +11,18 @@ import java.util.stream.Stream;
 
 import org.json.*;
 
-//persistence based on JsonReader from JsonSerializationDemo
-
+// persistence based on JsonReader from JsonSerializationDemo
+// URL: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+// Represents a reader that reads account from JSON data stored in file
 public class JsonReader {
     private String source;
 
+    // EFFECTS: constructs reader to read from source file
     public JsonReader(String source) {
         this.source = source;
     }
 
+    // EFFECTS: reads workroom from file and returns it; throws IOException if an error occurs reading data from file
     public Account read() throws IOException {
         String jsonData = readFile(source);
         JSONObject jsonObject = new JSONObject(jsonData);
@@ -37,6 +40,7 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
+    // EFFECTS: parses account from JSON object and returns it
     private Account parseAccount(JSONObject jsonObject) {
         String username = jsonObject.getString("username");
         int balance = jsonObject.getInt("balance");

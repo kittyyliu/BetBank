@@ -7,6 +7,7 @@ import java.util.LinkedList;
 
 // a user's account with their username, balance, account ID, and transactions
 // Code referenced from: TellerApp
+// URL: https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
 public class Account {
     private String username;
     private int balance;
@@ -62,6 +63,8 @@ public class Account {
         return balance;
     }
 
+    // code based on JsonSerializationDemo
+    // URL: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
     // EFFECTS: returns Account as a JSON object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -71,6 +74,8 @@ public class Account {
         return json;
     }
 
+    // code based on JsonSerializationDemo
+    // URL: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
     // EFFECTS: returns transactions in account as a JSON array
     private JSONArray transactionsToJson() {
         JSONArray jsonArray = new JSONArray();

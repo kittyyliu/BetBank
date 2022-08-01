@@ -10,6 +10,8 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+// code referenced from JsonReaderTest from JsonSerializationDemo
+// URL: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 public class JsonReaderTest extends JsonTest {
 
     @Test

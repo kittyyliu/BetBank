@@ -12,6 +12,7 @@ import java.io.*;
 import org.json.*;
 
 // UI code based on TellerApp
+// URL: https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
 
 // BetBank application
 public class BetBank {
@@ -158,6 +159,8 @@ public class BetBank {
         System.out.println("\nbadminton\n");
     }
 
+    // code based on JsonSerializationDemo
+    // URL: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
     // EFFECTS: saves account to file
     private void saveAccount() {
         try {
@@ -170,6 +173,8 @@ public class BetBank {
         }
     }
 
+    // code based on JsonSerializationDemo
+    // URL: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
     // MODIFIES: this
     // EFFECTS: loads account from file
     private void loadAccount() {

@@ -28,6 +28,9 @@ public class Transaction {
         return transactionType;
     }
 
+    // code based on JsonSerializationDemo
+    // URL: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
+    // EFFECTS: returns Transaction as a JSON object
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("transactionID", transactionID);
