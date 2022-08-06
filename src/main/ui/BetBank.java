@@ -16,7 +16,7 @@ import org.json.*;
 
 // BetBank application
 public class BetBank {
-    private static final String JSON_STORE = "./data/account.json";
+    static final String JSON_STORE = "./data/account.json";
     private Scanner input;
     private Account account;
     private JsonWriter jsonWriter;
