@@ -8,82 +8,215 @@ import persistence.JsonWriter;
 import ui.BetBank;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
 
-public class BetBankGUI extends JPanel {
+public class BetBankGUI extends JFrame implements ActionListener {
+
+    public static final int WIDTH = 700;
+    public static final int HEIGHT = 750;
+    private static final String JSON_STORE = "./data/account.json";
 
     private Account account;
     private final JsonWriter jsonWriter;
     private final JsonReader jsonReader;
     private final JTextField amount;
+    private JFrame transaction; // frame to add transaction
+    private JButton deposit; // button to deposit
+    private JButton bet; // button to bet
+
+    private JFrame betType; // frame for choosing sport to bet on
+    private JButton basketball;
+    private JButton baseball;
+    private JButton tennis;
+    private JButton hockey;
+    private JButton badminton;
+
     private final DefaultListModel<Transaction> listTransactions;
 
-    private static final String JSON_STORE = "./data/account.json";
+    private JFrame splashScreen;
+
 
     public BetBankGUI() {
-        super(new BorderLayout());
+        super("BetBank");
         account = new Account("MONEYMAKER222", 100);
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         listTransactions = new DefaultListModel<>();
-        amount = new JTextField(10);
-
-        transactionListGUI();
-        initializeScreen();
+        amount = new JTextField();
+        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getContentPane().setBackground(Color.BLUE);
+        splashScreen();
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException exception) {
+            System.out.println("not working");
+        }
+        mainPage();
     }
 
-    //EFFECTS: create list of transactions and place in scroll pane.
-    private void transactionListGUI() {
-        JList<Transaction> transactionList = new JList<>(listTransactions);
-        transactionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        transactionList.setSelectedIndex(0);
-        transactionList.setPreferredSize(new Dimension(300, 50));
-        transactionList.setVisibleRowCount(50);
-        JScrollPane listScrollPane = new JScrollPane(transactionList);
-        listScrollPane.setName("Previous Transaction List");
-        listScrollPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-        listScrollPane.setSize(300,50);
-        add(listScrollPane, BorderLayout.CENTER);
+    private void splashScreen() {
+        JFrame splashScreen = new JFrame("Loading BetBank");
+        splashScreen.setPreferredSize(new Dimension(500, 250));
+        splashScreen.setLayout(new BoxLayout(splashScreen.getContentPane(), BoxLayout.Y_AXIS));
+        splashScreen.getContentPane().setBackground(Color.WHITE);
+
+        Icon icon = new ImageIcon("./data/loading.gif");
+        JLabel gif = new JLabel(icon);
+        gif.setBounds(0,0,500,250);
+        splashScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        splashScreen.add(gif);
+        splashScreen.setVisible(true);
+        splashScreen.pack();
     }
 
-    private void initializeScreen() {
-        JPanel initialScreen = new JPanel();
-        initialScreen.setLayout(new BoxLayout(initialScreen, BoxLayout.PAGE_AXIS));
-        JLabel label1 = new JLabel("Hello! Welcome to BetBank! :)");
-        initialScreen.setLayout(new BoxLayout(initialScreen,
-                BoxLayout.PAGE_AXIS));
-        initialScreen.add(label1);
-        initialScreen.add(Box.createHorizontalStrut(5));
-        initialScreen.add(loadAccount());
-        initialScreen.add(saveAccount());
-        initialScreen.add(createTransaction());
-        //initialScreen.add(showCurrentBalance());
-        //initialScreen.add(showAllTransactions());
-        initialScreen.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
-        add(initialScreen, BorderLayout.EAST);
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
+    private void mainPage() {
+        JLabel title = new JLabel("BetBank");
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(new Font("Hind", Font.PLAIN, 40));
+        title.setForeground(Color.WHITE);
+
+        JButton transaction = new JButton("Add Transaction");
+        transaction.setActionCommand("transaction");
+        transaction.addActionListener((ActionListener) this);
+        transaction.setAlignmentX(Component.CENTER_ALIGNMENT);
+        transaction.setFont(new Font("Hind", Font.PLAIN, 20));
+        transaction.setBorder(new LineBorder(Color.WHITE, 1, true));
+        transaction.setBackground(new Color(30, 30, 31));
+        transaction.setForeground(Color.WHITE);
+
+        JButton balance = new JButton("Check Balance");
+        balance.setActionCommand("balance");
+        balance.addActionListener((ActionListener) this);
+        balance.setAlignmentX(Component.CENTER_ALIGNMENT);
+        balance.setFont(new Font("Hind", Font.PLAIN, 20));
+        balance.setBorder(new LineBorder(Color.WHITE, 1, true));
+        balance.setBackground(new Color(30, 30, 31));
+        balance.setForeground(Color.WHITE);
+
+        JButton save = new JButton("Save Account");
+        save.setActionCommand("save");
+        save.addActionListener((ActionListener) this);
+        save.setAlignmentX(Component.CENTER_ALIGNMENT);
+        save.setFont(new Font("Hind", Font.PLAIN, 20));
+        save.setBorder(new LineBorder(Color.WHITE, 1, true));
+        save.setBackground(new Color(30, 30, 31));
+        save.setForeground(Color.WHITE);
+
+        JButton load = new JButton("Load Account");
+        load.setActionCommand("load");
+        load.addActionListener((ActionListener) this);
+        load.setAlignmentX(Component.CENTER_ALIGNMENT);
+        load.setFont(new Font("Hind", Font.PLAIN, 20));
+        load.setBorder(new LineBorder(Color.WHITE, 1, true));
+        load.setBackground(new Color(30, 30, 31));
+        load.setForeground(Color.WHITE);
+
+        JButton exitButton = new JButton("Quit");
+        exitButton.setActionCommand("quit");
+        exitButton.addActionListener((ActionListener) this);
+        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitButton.setFont(new Font("Hind", Font.PLAIN, 20));
+        exitButton.setBorder(new LineBorder(Color.WHITE, 1, true));
+        exitButton.setBackground(new Color(30, 30, 31));
+        exitButton.setForeground(Color.WHITE);
+
+
+        JLabel moneyImage = new JLabel(new ImageIcon("./data/moneyImage.jpg"));
+        moneyImage.setPreferredSize(new Dimension(100, 100));
+        moneyImage.setVisible(true);
+        moneyImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        add(title);
+        add(moneyImage);
+        add(transaction);
+        add(balance);
+        add(save);
+        add(load);
+        add(exitButton);
+        setVisible(true);
+        pack();
     }
 
-    private Component createTransaction() {
-        JButton createTransaction = new JButton("Add new transaction");
-        createTransaction.setActionCommand("Add new transaction");
-        createTransaction.addActionListener(e -> transactionFrame());
-        return createTransaction;
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("transaction")) {
+            addTransaction();
+        } else if (e.getActionCommand().equals("save")) {
+            write();
+        } else if (e.getActionCommand().equals("load")) {
+            read();
+        } else if (e.getActionCommand().equals("check balance")) {
+            showCurrentBalance();
+        } else if (e.getActionCommand().equals("quit")) {
+            System.exit(0);
+        }
     }
 
-    private void transactionFrame() {
-        JFrame transactionFrame = new JFrame("New Transaction");
-        transactionFrame.getContentPane().add(transactionPane());
-        transactionFrame.setSize(500, 200);
-        transactionFrame.setLocationRelativeTo(null);
-        transactionFrame.setVisible(true);
-        transactionFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    private void write() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(account);
+            jsonWriter.close();
+            success();
+        } catch (FileNotFoundException e) {
+            System.out.println("ERROR! Cannot save account.");
+        }
     }
 
-    private Component transactionPane() {
+    private void read() {
+        try {
+            account = jsonReader.read();
+            addTransaction();
+        } catch (IOException exception) {
+            JOptionPane.showMessageDialog(null, "ERROR! No saved data was found.");
+        }
+    }
+
+    // EFFECTS : a fail popup for unsuccessful changes trying to be made
+    private void failPage() {
+        JFrame failFrame = new JFrame("Fail!");
+        failFrame.setPreferredSize(new Dimension(150, 150));
+        failFrame.setLayout(new BoxLayout(failFrame.getContentPane(), BoxLayout.Y_AXIS));
+        failFrame.getContentPane().setBackground(Color.darkGray);
+
+
+        JLabel walletImage = new JLabel(new ImageIcon("./data/failImage.png"));
+        walletImage.setVisible(true);
+        walletImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        failFrame.add(walletImage);
+        failFrame.setVisible(true);
+        failFrame.pack();
+    }
+
+    // EFFECTS : a fail popup for successful changes trying to be made
+    private void success() {
+        JFrame successFrame = new JFrame("Success!");
+        successFrame.setPreferredSize(new Dimension(150, 150));
+        successFrame.setLayout(new BoxLayout(successFrame.getContentPane(), BoxLayout.Y_AXIS));
+        successFrame.getContentPane().setBackground(Color.darkGray);
+
+
+        JLabel walletImage = new JLabel(new ImageIcon("./data/successImage.png"));
+        walletImage.setVisible(true);
+        walletImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        successFrame.add(walletImage);
+        successFrame.setVisible(true);
+        successFrame.pack();
+    }
+
+    private Component addTransaction() {
         JPanel transactionPane = new JPanel();
         JLabel jlabel = new JLabel("How many credits do you want to deposit or bet from your account?");
         transactionPane.add(jlabel);
@@ -106,10 +239,10 @@ public class BetBankGUI extends JPanel {
                 if (parsedAmount >= 0) {
                     doDeposit();
                 } else {
-                    JOptionPane.showMessageDialog(null, "ERROR! You must enter a positive integer.");
+                    failPage();
                 }
             } catch (NumberFormatException exception) {
-                JOptionPane.showMessageDialog(null, "ERROR! You must enter an integer value.");
+                failPage();
             }
         });
         return depositButton;
@@ -121,12 +254,12 @@ public class BetBankGUI extends JPanel {
         betButton.addActionListener(e -> {
             try {
                 if (parseInt(amount.getText()) < 0) {
-                    JOptionPane.showMessageDialog(null, "ERROR! You must enter a positive integer.");
+                    failPage();
                 } else {
                     chooseBet();
                 }
             } catch (NumberFormatException exception) {
-                JOptionPane.showMessageDialog(null, "ERROR! You must enter an integer.");
+                failPage();
             } //catch (InsufficientFundsException insufficientFundsException) {
                 //JOptionPane.showMessageDialog(null,
                         //"ERROR! You have insufficient funds to place this bet");
@@ -178,6 +311,7 @@ public class BetBankGUI extends JPanel {
         listTransactions.addElement(transaction);
         amount.requestFocusInWindow();
         amount.setText("");
+        success();
     }
 
     private void doBet() throws InsufficientFundsException {
@@ -191,47 +325,9 @@ public class BetBankGUI extends JPanel {
         listTransactions.addElement(transaction);
         amount.requestFocusInWindow();
         amount.setText("");
+        success();
     }
 
-    private Component saveAccount() {
-        JButton saveButton = new JButton("Save");
-        saveButton.setActionCommand("Save");
-        saveButton.addActionListener(e -> {
-            try {
-                jsonWriter.open();
-                jsonWriter.write(account);
-                jsonWriter.close();
-                JOptionPane.showMessageDialog(null, "Saved "
-                        + account.getUsername() + " to " + JSON_STORE);
-            } catch (FileNotFoundException exception) {
-                JOptionPane.showMessageDialog(null, "Unable to write to file: " + JSON_STORE);
-            }
-        });
-        return saveButton;
-    }
-
-
-    // MODIFIES: this
-    // EFFECTS: loads account from file
-    private Component loadAccount() {
-        JButton loadButton = new JButton("Load account");
-        loadButton.setActionCommand("Load account");
-        loadButton.addActionListener(e -> {
-            try {
-                account = jsonReader.read();
-                for (int i = 0; i < account.getBettingHistory().size(); i++) {
-                    listTransactions.addElement(account.getBettingHistory().get(i));
-                }
-                JOptionPane.showMessageDialog(null, "Loaded "
-                        + account.getUsername() + " from " + JSON_STORE);
-            } catch (IOException exception) {
-                Toolkit.getDefaultToolkit().beep();
-                JOptionPane.showMessageDialog(null, "Unable to read from file: " + JSON_STORE);
-            }
-        });
-        return loadButton;
-    }
-    
     private Component showCurrentBalance() {
         JButton showBalance = new JButton("Check account balance");
         showBalance.setActionCommand("Check account balance");
@@ -239,20 +335,6 @@ public class BetBankGUI extends JPanel {
         return showCurrentBalance();
     }
 
-    private static void createAndShowGUI() {
-        JFrame frame = new JFrame("BetBAnk");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JComponent newContentPane = new BetBankGUI();
-        newContentPane.setOpaque(true);
-        frame.setContentPane(newContentPane);
-        frame.setSize(800,500);
-        frame.setLocationRelativeTo(null);
 
-        frame.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(BetBankGUI::createAndShowGUI);
-    }
 }
