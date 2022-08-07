@@ -28,6 +28,18 @@ public class Transaction {
         return transactionType;
     }
 
+    public void setTransactionID(String id) {
+        this.transactionID = id;
+    }
+
+    public void setTransactionAmount(int amount) {
+        this.transactionAmount = amount;
+    }
+
+    public void setTransactionType(String type) {
+        this.transactionType = type;
+    }
+
     // code based on JsonSerializationDemo
     // URL: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
     // EFFECTS: returns Transaction as a JSON object
