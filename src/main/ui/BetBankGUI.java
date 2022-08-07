@@ -5,7 +5,6 @@ import model.Transaction;
 import model.InsufficientFundsException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import ui.BetBank;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -53,7 +52,7 @@ public class BetBankGUI extends JFrame implements ActionListener {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setBackground(Color.BLUE);
+        getContentPane().setBackground(Color.PINK);
         splashScreen();
         try {
             Thread.sleep(5000);
@@ -65,13 +64,13 @@ public class BetBankGUI extends JFrame implements ActionListener {
 
     private void splashScreen() {
         JFrame splashScreen = new JFrame("Loading BetBank");
-        splashScreen.setPreferredSize(new Dimension(500, 250));
+        splashScreen.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         splashScreen.setLayout(new BoxLayout(splashScreen.getContentPane(), BoxLayout.Y_AXIS));
         splashScreen.getContentPane().setBackground(Color.WHITE);
 
         Icon icon = new ImageIcon("./data/loading.gif");
         JLabel gif = new JLabel(icon);
-        gif.setBounds(0,0,500,250);
+        gif.setBounds(0,0,480,480);
         splashScreen.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         splashScreen.add(gif);
         splashScreen.setVisible(true);
@@ -155,8 +154,16 @@ public class BetBankGUI extends JFrame implements ActionListener {
             write();
         } else if (e.getActionCommand().equals("load")) {
             read();
-        } else if (e.getActionCommand().equals("check balance")) {
+        } else if (e.getActionCommand().equals("balance")) {
             showCurrentBalance();
+        } else if (e.getActionCommand().equals("basketball") | e.getActionCommand().equals("baseball")
+                | e.getActionCommand().equals("hockey") | e.getActionCommand().equals("tennis")
+                | e.getActionCommand().equals("badminton")) {
+            try {
+                doBet();
+            } catch (InsufficientFundsException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot place bet");
+            }
         } else if (e.getActionCommand().equals("quit")) {
             System.exit(0);
         }
@@ -177,8 +184,10 @@ public class BetBankGUI extends JFrame implements ActionListener {
         try {
             account = jsonReader.read();
             addTransaction();
+            success();
         } catch (IOException exception) {
             JOptionPane.showMessageDialog(null, "ERROR! No saved data was found.");
+            failPage();
         }
     }
 
@@ -217,17 +226,25 @@ public class BetBankGUI extends JFrame implements ActionListener {
     }
 
     private Component addTransaction() {
-        JPanel transactionPane = new JPanel();
-        JLabel jlabel = new JLabel("How many credits do you want to deposit or bet from your account?");
-        transactionPane.add(jlabel);
-        transactionPane.add(Box.createHorizontalStrut(5));
-        transactionPane.add(new JSeparator(SwingConstants.VERTICAL));
-        transactionPane.add(Box.createHorizontalStrut(5));
-        transactionPane.add(amount);
-        transactionPane.add(depositButton());
-        transactionPane.add(betButton());
+        JFrame transactionFrame = new JFrame();
+        transactionFrame.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        transactionFrame.setLayout(new BoxLayout(transactionFrame.getContentPane(), BoxLayout.Y_AXIS));
+        transactionFrame.getContentPane().setBackground(Color.PINK);
 
-        return transactionPane;
+        JLabel jlabel = new JLabel("How many credits do you want to deposit or bet from your account?");
+        jlabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        jlabel.setFont(new Font("Hind", Font.PLAIN, 15));
+        jlabel.setForeground(Color.BLACK);
+
+        transactionFrame.add(jlabel);
+        transactionFrame.add(amount);
+        transactionFrame.add(depositButton());
+        transactionFrame.add(betButton());
+
+        transactionFrame.setVisible(true);
+        transactionFrame.pack();
+
+        return transactionFrame;
     }
 
     private Component depositButton() {
@@ -245,59 +262,57 @@ public class BetBankGUI extends JFrame implements ActionListener {
                 failPage();
             }
         });
+        depositButton.setVisible(true);
         return depositButton;
     }
 
     private Component betButton() {
         JButton betButton = new JButton("Bet");
-        betButton.setActionCommand("Bet");
+        betButton.setActionCommand("bet");
         betButton.addActionListener(e -> {
             try {
-                if (parseInt(amount.getText()) < 0) {
-                    failPage();
-                } else {
-                    chooseBet();
-                }
-            } catch (NumberFormatException exception) {
-                failPage();
-            } //catch (InsufficientFundsException insufficientFundsException) {
-                //JOptionPane.showMessageDialog(null,
-                        //"ERROR! You have insufficient funds to place this bet");
-            //}
+                chooseBet();
+            } catch (InsufficientFundsException ex) {
+                JOptionPane.showMessageDialog(null, "You have insufficient funds to place this bet");
+            } catch (NumberFormatException exc) {
+                JOptionPane.showMessageDialog(null, "Please enter an integer");
+            }
         });
+        betButton.setVisible(true);
         return betButton;
     }
 
-    private void chooseBet() {
+    private void chooseBet() throws InsufficientFundsException {
         JPanel chooseBet = new JPanel();
         chooseBet.setLayout(new BoxLayout(chooseBet, BoxLayout.PAGE_AXIS));
         JLabel label1 = new JLabel("Please choose a sport to bet on from the following: ");
+        JButton basketball = new JButton();
+        basketball.setActionCommand("basketball");
+        JButton baseball = new JButton();
+        baseball.setActionCommand("baseball");
+        JButton tennis = new JButton();
+        tennis.setActionCommand("tennis");
+        JButton hockey = new JButton();
+        hockey.setActionCommand("hockey");
+        JButton badminton = new JButton();
+        badminton.setActionCommand("badminton");
+
 
         chooseBet.add(label1);
         chooseBet.add(Box.createHorizontalStrut(5));
-        chooseBet.add(sport("Basketball"));
-        chooseBet.add(sport("Baseball"));
-        chooseBet.add(sport("Tennis"));
-        chooseBet.add(sport("Hockey"));
-        chooseBet.add(sport("Badminton"));
+        chooseBet.add(basketball);
+        chooseBet.add(baseball);
+        chooseBet.add(tennis);
+        chooseBet.add(hockey);
+        chooseBet.add(badminton);
+        chooseBet.setVisible(true);
     }
 
-    private Component sport(String sport) {
-        JButton basketball = new JButton(sport);
-        basketball.setActionCommand(sport);
-        try {
-            if (parseInt(amount.getText()) < 0) {
-                JOptionPane.showMessageDialog(null, "ERROR! You must enter a positive integer.");
-            } else {
-                doBet();
-            }
-        } catch (NumberFormatException exception) {
-            JOptionPane.showMessageDialog(null, "ERROR! You must enter an integer.");
-        } catch (InsufficientFundsException insufficientFundsException) {
-            JOptionPane.showMessageDialog(null,
-                    "ERROR! You have insufficient funds to place this bet");
-        }
-        return sport(sport);
+    private PopupMenu sport(String sport) throws InsufficientFundsException {
+        JButton chooseSport = new JButton(sport);
+        chooseSport.setActionCommand(sport);
+        doBet();
+        return null;
     }
 
     private void doDeposit() {
@@ -316,25 +331,27 @@ public class BetBankGUI extends JFrame implements ActionListener {
 
     private void doBet() throws InsufficientFundsException {
         int parsedAmount = parseInt(amount.getText());
-        Transaction transaction = new Transaction("", 0, "");
-        account.bet(parsedAmount);
-        account.addTransaction(transaction);
-        transaction.setTransactionAmount(parsedAmount);
-        transaction.setTransactionType("Bet");
-        transaction.setTransactionID("Transaction" + Math.round(Math.random() * (9999 - 1000 + 1) + 1));
-        listTransactions.addElement(transaction);
-        amount.requestFocusInWindow();
-        amount.setText("");
-        success();
+
+        if (parsedAmount > 0) {
+            Transaction transaction = new Transaction("", 0, "");
+            account.bet(parsedAmount);
+            account.addTransaction(transaction);
+            transaction.setTransactionAmount(parsedAmount);
+            transaction.setTransactionType("Bet");
+            transaction.setTransactionID("Transaction" + Math.round(Math.random() * (9999 - 1000 + 1) + 1));
+            listTransactions.addElement(transaction);
+            amount.requestFocusInWindow();
+            amount.setText("");
+            success();
+        } else {
+            throw new InsufficientFundsException("ERROR! You do not have enough funds to place this bet");
+        }
     }
 
-    private Component showCurrentBalance() {
-        JButton showBalance = new JButton("Check account balance");
-        showBalance.setActionCommand("Check account balance");
+    private void showCurrentBalance() {
+        JPanel showBalance = new JPanel();
+        showBalance.setLayout(new BoxLayout(showBalance, BoxLayout.PAGE_AXIS));
         JOptionPane.showMessageDialog(null, "Account Balance = $" + account.getBalance());
-        return showCurrentBalance();
+        showBalance.setVisible(true);
     }
-
-
-
 }
