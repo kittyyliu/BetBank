@@ -32,43 +32,39 @@ public class BetBankGUI extends JPanel {
         listTransactions = new DefaultListModel<>();
         amount = new JTextField(10);
 
-        displaySplashScreen();
+        transactionListGUI();
         initializeScreen();
     }
 
-    private void displaySplashScreen() {
-        JWindow j = new JWindow();
-
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-
-        Icon img = new ImageIcon(this.getClass().getResource("http://static.demilked.com/wp-content/uploads/2016/06/gif-animations-replace-loading-screen-14.gif"));
-        JLabel label = new JLabel(img);
-        label.setSize(200, 300);
-        j.getContentPane().add(label);
-        j.setBounds(((int) d.getWidth() - 722) / 2, ((int) d.getHeight() - 401) / 2, 722, 401);
-        j.setVisible(true);
-        try {
-            Thread.sleep(6000);
-        } catch (InterruptedException exception) {
-            exception.printStackTrace();
-        }
-        j.setVisible(false);
+    //EFFECTS: create list of transactions and place in scroll pane.
+    private void transactionListGUI() {
+        JList<Transaction> transactionList = new JList<>(listTransactions);
+        transactionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        transactionList.setSelectedIndex(0);
+        transactionList.setPreferredSize(new Dimension(300, 50));
+        transactionList.setVisibleRowCount(50);
+        JScrollPane listScrollPane = new JScrollPane(transactionList);
+        listScrollPane.setName("Previous Transaction List");
+        listScrollPane.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+        listScrollPane.setSize(300,50);
+        add(listScrollPane, BorderLayout.CENTER);
     }
 
     private void initializeScreen() {
         JPanel initialScreen = new JPanel();
         initialScreen.setLayout(new BoxLayout(initialScreen, BoxLayout.PAGE_AXIS));
-        JLabel label1 = new JLabel("Hello! Welcome to BetBank! :) \n ");
-
+        JLabel label1 = new JLabel("Hello! Welcome to BetBank! :)");
+        initialScreen.setLayout(new BoxLayout(initialScreen,
+                BoxLayout.PAGE_AXIS));
         initialScreen.add(label1);
         initialScreen.add(Box.createHorizontalStrut(5));
         initialScreen.add(loadAccount());
         initialScreen.add(saveAccount());
         initialScreen.add(createTransaction());
-        initialScreen.add(showCurrentBalance());
+        //initialScreen.add(showCurrentBalance());
         //initialScreen.add(showAllTransactions());
         initialScreen.setBorder(BorderFactory.createEmptyBorder(7, 7, 7, 7));
-        add(initialScreen, BorderLayout.CENTER);
+        add(initialScreen, BorderLayout.EAST);
     }
 
     private Component createTransaction() {
@@ -82,12 +78,13 @@ public class BetBankGUI extends JPanel {
         JFrame transactionFrame = new JFrame("New Transaction");
         transactionFrame.getContentPane().add(transactionPane());
         transactionFrame.setSize(500, 200);
+        transactionFrame.setLocationRelativeTo(null);
         transactionFrame.setVisible(true);
         transactionFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     private Component transactionPane() {
-        JTextField transactionPane = new JTextField();
+        JPanel transactionPane = new JPanel();
         JLabel jlabel = new JLabel("How many credits do you want to deposit or bet from your account?");
         transactionPane.add(jlabel);
         transactionPane.add(Box.createHorizontalStrut(5));
@@ -96,6 +93,7 @@ public class BetBankGUI extends JPanel {
         transactionPane.add(amount);
         transactionPane.add(depositButton());
         transactionPane.add(betButton());
+
         return transactionPane;
     }
 
@@ -121,20 +119,19 @@ public class BetBankGUI extends JPanel {
         JButton betButton = new JButton("Bet");
         betButton.setActionCommand("Bet");
         betButton.addActionListener(e -> {
-
-        })
-        try {
-            if (parseInt(amount.getText()) < 0) {
-                JOptionPane.showMessageDialog(null, "ERROR! You must enter a positive integer.");
-            } else {
-                chooseBet();
-            }
-        } catch (NumberFormatException exception) {
-            JOptionPane.showMessageDialog(null, "ERROR! You must enter an integer.");
-        } catch (InsufficientFundsException insufficientFundsException) {
-            JOptionPane.showMessageDialog(null,
-                    "ERROR! You have insufficient funds to place this bet");
-        }
+            try {
+                if (parseInt(amount.getText()) < 0) {
+                    JOptionPane.showMessageDialog(null, "ERROR! You must enter a positive integer.");
+                } else {
+                    chooseBet();
+                }
+            } catch (NumberFormatException exception) {
+                JOptionPane.showMessageDialog(null, "ERROR! You must enter an integer.");
+            } //catch (InsufficientFundsException insufficientFundsException) {
+                //JOptionPane.showMessageDialog(null,
+                        //"ERROR! You have insufficient funds to place this bet");
+            //}
+        });
         return betButton;
     }
 
