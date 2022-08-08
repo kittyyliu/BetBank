@@ -30,3 +30,12 @@ The following information will be kept track of by the application:
 - As a user, I want to be able to deposit credits in my account
 - As a user, I want to be able to save my account details to file
 - As a user, I want to be able to retrieve my previous account details from file
+
+## Instructions for Grader
+- You can generate the first required event by selecting "Add Transaction" from the main menu
+- You can generate the second required event by clicking either "Deposit" or "Bet" to add either a deposit 
+or bet transaction to your account
+- You can locate my visual component by the splash screen when the application is opened, or by clicking "Deposit",
+"Bet", "Save", or "Load" (Pop-up image)
+- You can save the state of my application by selecting "Save Account" from the main menu
+- You can reload the state of my application by selecting "Load Account" from the main menu

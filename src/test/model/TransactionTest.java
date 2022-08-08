@@ -39,4 +39,12 @@ public class TransactionTest {
         assertEquals("badminton", transaction3.getBetType());
     }
 
+    @Test
+    void testTransactionToString() {
+        transaction1.setTransactionID("D123");
+        transaction1.setTransactionType("Deposit");
+        transaction1.setTransactionAmount(100);
+        assertTrue(transaction1.toString().contains("Transaction Id: D1 Amount: $100 Type: Deposit"));
+    }
+
 }
