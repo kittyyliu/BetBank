@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
@@ -93,6 +94,15 @@ public class BetBankGUI extends JFrame implements ActionListener {
         transaction.setBackground(new Color(30, 30, 31));
         transaction.setForeground(Color.WHITE);
 
+        JButton showListTransactions = new JButton("Show all transactions");
+        showListTransactions.setActionCommand("showListTransactions");
+        showListTransactions.addActionListener((ActionListener) this);
+        showListTransactions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        showListTransactions.setFont(new Font("Hind", Font.PLAIN, 20));
+        showListTransactions.setBorder(new LineBorder(Color.WHITE, 1, true));
+        showListTransactions.setBackground(new Color(30, 30, 31));
+        showListTransactions.setForeground(Color.WHITE);
+
         JButton balance = new JButton("Check Balance");
         balance.setActionCommand("balance");
         balance.addActionListener((ActionListener) this);
@@ -138,6 +148,7 @@ public class BetBankGUI extends JFrame implements ActionListener {
         add(title);
         add(moneyImage);
         add(transaction);
+        add(showListTransactions);
         add(balance);
         add(save);
         add(load);
@@ -151,8 +162,8 @@ public class BetBankGUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("transaction")) {
             addTransaction();
-        } else if (e.getActionCommand().equals("listTransactions")) {
-            showListTransactions();
+        } else if (e.getActionCommand().equals("showListTransactions")) {
+            showAllTransactions();
         } else if (e.getActionCommand().equals("save")) {
             write();
         } else if (e.getActionCommand().equals("load")) {
@@ -260,7 +271,13 @@ public class BetBankGUI extends JFrame implements ActionListener {
         return transactionFrame;
     }
 
-    private void showListTransactions() {}
+    private void showAllTransactions() {
+        JPanel showAllTransactions = new JPanel();
+        showAllTransactions.setLayout(new BoxLayout(showAllTransactions, BoxLayout.PAGE_AXIS));
+        JOptionPane.showMessageDialog(null,
+                "The following transactions have been added to your account:    " + account.getBettingHistory());
+        showAllTransactions.setVisible(true);
+    }
 
     private Component depositButton() {
         JButton depositButton = new JButton("Deposit");
@@ -388,6 +405,7 @@ public class BetBankGUI extends JFrame implements ActionListener {
         amount.requestFocusInWindow();
         amount.setText("");
         success();
+        JOptionPane.showMessageDialog(null, account.getBettingHistory());
     }
 
     private void doBet() throws InsufficientFundsException {
@@ -404,6 +422,7 @@ public class BetBankGUI extends JFrame implements ActionListener {
             amount.requestFocusInWindow();
             amount.setText("");
             success();
+            JOptionPane.showMessageDialog(null, account.getBettingHistory());
         } else {
             throw new InsufficientFundsException("ERROR! You do not have enough funds to place this bet");
         }

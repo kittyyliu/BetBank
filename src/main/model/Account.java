@@ -3,7 +3,7 @@ package model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 // a user's account with their username, balance, account ID, and transactions
 // Code referenced from: TellerApp
@@ -11,18 +11,14 @@ import java.util.LinkedList;
 public class Account {
     private String username;
     private int balance;
-    private LinkedList<Transaction> transactions = new LinkedList<>();
+    private ArrayList<Transaction> transactions = new ArrayList<>();
 
     // REQUIRES: name has a non-zero length
     // EFFECTS: name of account is name; if initialBalance >=0 then balance on account is initialBalance,
     // otherwise balance is zero
     public Account(String name, int initialBalance) {
         this.username = name;
-        if (initialBalance >= 0) {
-            balance = initialBalance;
-        } else {
-            balance = 0;
-        }
+        this.balance = initialBalance;
     }
 
     // REQUIRES: amount > 0
@@ -51,7 +47,7 @@ public class Account {
     }
 
     // EFFECTS: returns list of transactions previously done
-    public LinkedList<Transaction> getBettingHistory() {
+    public ArrayList<Transaction> getBettingHistory() {
         return transactions;
     }
 

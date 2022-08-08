@@ -40,6 +40,13 @@ public class Transaction {
         this.transactionType = type;
     }
 
+    //EFFECTS: turns transaction to string
+    @Override
+    public String toString() {
+        return "Transaction Id: " + this.getTransactionID() + " Amount: $" + this.getTransactionAmount() + " Type: "
+                + this.getBetType() + "]";
+    }
+
     // code based on JsonSerializationDemo
     // URL: https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
     // EFFECTS: returns Transaction as a JSON object
