@@ -13,10 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static java.lang.Integer.parseInt;
 
+// GUI for BetBank representing its various frames
 public class BetBankGUI extends JFrame implements ActionListener {
 
     public static final int WIDTH = 700;
@@ -42,7 +42,8 @@ public class BetBankGUI extends JFrame implements ActionListener {
 
     private JFrame splashScreen;
 
-
+    // MODIFIES: this, account
+    // EFFECTS: initializes json reader, writer, account, transaction list, and displays main GUI page
     public BetBankGUI() {
         super("BetBank");
         account = new Account("MONEYMAKER222", 100);
@@ -63,6 +64,7 @@ public class BetBankGUI extends JFrame implements ActionListener {
         mainPage();
     }
 
+    // EFFECTS: creates a splash screen when the app is opened
     private void splashScreen() {
         JFrame splashScreen = new JFrame("Loading BetBank");
         splashScreen.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -78,67 +80,14 @@ public class BetBankGUI extends JFrame implements ActionListener {
         splashScreen.pack();
     }
 
-    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
+    // MODIFIES: this
+    // EFFECTS: displays home screen with option to add transaction, show all transactions, check balance,
+    // save account, load account, or quit
     private void mainPage() {
         JLabel title = new JLabel("BetBank");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setFont(new Font("Hind", Font.PLAIN, 40));
         title.setForeground(Color.WHITE);
-
-        JButton transaction = new JButton("Add Transaction");
-        transaction.setActionCommand("transaction");
-        transaction.addActionListener((ActionListener) this);
-        transaction.setAlignmentX(Component.CENTER_ALIGNMENT);
-        transaction.setFont(new Font("Hind", Font.PLAIN, 20));
-        transaction.setBorder(new LineBorder(Color.WHITE, 1, true));
-        transaction.setBackground(new Color(30, 30, 31));
-        transaction.setForeground(Color.WHITE);
-
-        JButton showListTransactions = new JButton("Show all transactions");
-        showListTransactions.setActionCommand("showListTransactions");
-        showListTransactions.addActionListener((ActionListener) this);
-        showListTransactions.setAlignmentX(Component.CENTER_ALIGNMENT);
-        showListTransactions.setFont(new Font("Hind", Font.PLAIN, 20));
-        showListTransactions.setBorder(new LineBorder(Color.WHITE, 1, true));
-        showListTransactions.setBackground(new Color(30, 30, 31));
-        showListTransactions.setForeground(Color.WHITE);
-
-        JButton balance = new JButton("Check Balance");
-        balance.setActionCommand("balance");
-        balance.addActionListener((ActionListener) this);
-        balance.setAlignmentX(Component.CENTER_ALIGNMENT);
-        balance.setFont(new Font("Hind", Font.PLAIN, 20));
-        balance.setBorder(new LineBorder(Color.WHITE, 1, true));
-        balance.setBackground(new Color(30, 30, 31));
-        balance.setForeground(Color.WHITE);
-
-        JButton save = new JButton("Save Account");
-        save.setActionCommand("save");
-        save.addActionListener((ActionListener) this);
-        save.setAlignmentX(Component.CENTER_ALIGNMENT);
-        save.setFont(new Font("Hind", Font.PLAIN, 20));
-        save.setBorder(new LineBorder(Color.WHITE, 1, true));
-        save.setBackground(new Color(30, 30, 31));
-        save.setForeground(Color.WHITE);
-
-        JButton load = new JButton("Load Account");
-        load.setActionCommand("load");
-        load.addActionListener((ActionListener) this);
-        load.setAlignmentX(Component.CENTER_ALIGNMENT);
-        load.setFont(new Font("Hind", Font.PLAIN, 20));
-        load.setBorder(new LineBorder(Color.WHITE, 1, true));
-        load.setBackground(new Color(30, 30, 31));
-        load.setForeground(Color.WHITE);
-
-        JButton exitButton = new JButton("Quit");
-        exitButton.setActionCommand("quit");
-        exitButton.addActionListener((ActionListener) this);
-        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        exitButton.setFont(new Font("Hind", Font.PLAIN, 20));
-        exitButton.setBorder(new LineBorder(Color.WHITE, 1, true));
-        exitButton.setBackground(new Color(30, 30, 31));
-        exitButton.setForeground(Color.WHITE);
-
 
         JLabel moneyImage = new JLabel(new ImageIcon("./data/moneyImage.jpg"));
         moneyImage.setPreferredSize(new Dimension(100, 100));
@@ -147,16 +96,96 @@ public class BetBankGUI extends JFrame implements ActionListener {
 
         add(title);
         add(moneyImage);
-        add(transaction);
-        add(showListTransactions);
-        add(balance);
-        add(save);
-        add(load);
-        add(exitButton);
+        add(addTransactionButton());
+        add(showAllTransactionsButton());
+        add(checkBalanceButton());
+        add(saveAccountButton());
+        add(loadAccountButton());
+        add(quitButton());
         setVisible(true);
         pack();
     }
 
+    // EFFECTS: button to add a transaction to account
+    public Component addTransactionButton() {
+        JButton transaction = new JButton("Add Transaction");
+        transaction.setActionCommand("transaction");
+        transaction.addActionListener((ActionListener) this);
+        transaction.setAlignmentX(Component.CENTER_ALIGNMENT);
+        transaction.setFont(new Font("Hind", Font.PLAIN, 20));
+        transaction.setBorder(new LineBorder(Color.WHITE, 1, true));
+        transaction.setBackground(new Color(30, 30, 31));
+        transaction.setForeground(Color.WHITE);
+        return transaction;
+    }
+
+    // EFFECTS: button to show all transactions of account
+    public Component showAllTransactionsButton() {
+        JButton showListTransactions = new JButton("Show all transactions");
+        showListTransactions.setActionCommand("showListTransactions");
+        showListTransactions.addActionListener((ActionListener) this);
+        showListTransactions.setAlignmentX(Component.CENTER_ALIGNMENT);
+        showListTransactions.setFont(new Font("Hind", Font.PLAIN, 20));
+        showListTransactions.setBorder(new LineBorder(Color.WHITE, 1, true));
+        showListTransactions.setBackground(new Color(30, 30, 31));
+        showListTransactions.setForeground(Color.WHITE);
+        return showListTransactions;
+    }
+
+    // EFFECTS: button to check account balance
+    public Component checkBalanceButton() {
+        JButton balance = new JButton("Check Balance");
+        balance.setActionCommand("balance");
+        balance.addActionListener((ActionListener) this);
+        balance.setAlignmentX(Component.CENTER_ALIGNMENT);
+        balance.setFont(new Font("Hind", Font.PLAIN, 20));
+        balance.setBorder(new LineBorder(Color.WHITE, 1, true));
+        balance.setBackground(new Color(30, 30, 31));
+        balance.setForeground(Color.WHITE);
+        return balance;
+    }
+
+    // EFFECTS: button to save account to json file
+    public Component saveAccountButton() {
+        JButton save = new JButton("Save Account");
+        save.setActionCommand("save");
+        save.addActionListener((ActionListener) this);
+        save.setAlignmentX(Component.CENTER_ALIGNMENT);
+        save.setFont(new Font("Hind", Font.PLAIN, 20));
+        save.setBorder(new LineBorder(Color.WHITE, 1, true));
+        save.setBackground(new Color(30, 30, 31));
+        save.setForeground(Color.WHITE);
+        return save;
+    }
+
+    // EFFECTS: button to load account from json file
+    public Component loadAccountButton() {
+        JButton load = new JButton("Load Account");
+        load.setActionCommand("load");
+        load.addActionListener((ActionListener) this);
+        load.setAlignmentX(Component.CENTER_ALIGNMENT);
+        load.setFont(new Font("Hind", Font.PLAIN, 20));
+        load.setBorder(new LineBorder(Color.WHITE, 1, true));
+        load.setBackground(new Color(30, 30, 31));
+        load.setForeground(Color.WHITE);
+        return load;
+    }
+
+    // EFFECTS: button to quit program
+    public Component quitButton() {
+        JButton exitButton = new JButton("Quit");
+        exitButton.setActionCommand("quit");
+        exitButton.addActionListener((ActionListener) this);
+        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        exitButton.setFont(new Font("Hind", Font.PLAIN, 20));
+        exitButton.setBorder(new LineBorder(Color.WHITE, 1, true));
+        exitButton.setBackground(new Color(30, 30, 31));
+        exitButton.setForeground(Color.WHITE);
+        return exitButton;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: performs appropriate functionality when an action event occurs
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -193,6 +222,8 @@ public class BetBankGUI extends JFrame implements ActionListener {
         }
     }
 
+    // MODIFIES: data.json
+    // EFFECTS: tries writing account into json file, displays error if unsuccessful
     private void write() {
         try {
             jsonWriter.open();
@@ -204,6 +235,7 @@ public class BetBankGUI extends JFrame implements ActionListener {
         }
     }
 
+    // EFFECTS: loads saved account state back into program
     private void read() {
         try {
             account = jsonReader.read();
@@ -232,7 +264,7 @@ public class BetBankGUI extends JFrame implements ActionListener {
         failFrame.pack();
     }
 
-    // EFFECTS : a fail popup for successful changes trying to be made
+    // EFFECTS : a success popup for successful changes trying to be made
     private void success() {
         JFrame successFrame = new JFrame("Success!");
         successFrame.setPreferredSize(new Dimension(150, 150));
@@ -249,6 +281,8 @@ public class BetBankGUI extends JFrame implements ActionListener {
         successFrame.pack();
     }
 
+    // MODIFIES: this, account
+    // EFFECTS: frame with option to deposit or bet credits
     private Component addTransaction() {
         JFrame transactionFrame = new JFrame();
         transactionFrame.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -271,14 +305,15 @@ public class BetBankGUI extends JFrame implements ActionListener {
         return transactionFrame;
     }
 
+    // EFFECTS: panel that shows all previous transactions
     private void showAllTransactions() {
         JPanel showAllTransactions = new JPanel();
         showAllTransactions.setLayout(new BoxLayout(showAllTransactions, BoxLayout.PAGE_AXIS));
-        JOptionPane.showMessageDialog(null,
-                "The following transactions have been added to your account:    " + account.getBettingHistory());
+        JOptionPane.showMessageDialog(null, account.getBettingHistory());
         showAllTransactions.setVisible(true);
     }
 
+    // EFFECTS: button to make a deposit
     private Component depositButton() {
         JButton depositButton = new JButton("Deposit");
         depositButton.setActionCommand("Deposit");
@@ -298,6 +333,8 @@ public class BetBankGUI extends JFrame implements ActionListener {
         return depositButton;
     }
 
+    // MODIFIES: this
+    // EFFECTS: button to make a bet, shows error if account has insufficient funds or if a non-integer value is entered
     private Component betButton() {
         JButton betButton = new JButton("Bet");
         betButton.setActionCommand("bet");
@@ -314,6 +351,8 @@ public class BetBankGUI extends JFrame implements ActionListener {
         return betButton;
     }
 
+    // MODIFIES: this
+    // EFFECTS: frame with functionality options to choose a sport to bet on
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     private void optionsPage() throws InsufficientFundsException {
         JFrame chooseBet = new JFrame("Sports options");
