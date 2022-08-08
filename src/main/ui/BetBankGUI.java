@@ -146,23 +146,36 @@ public class BetBankGUI extends JFrame implements ActionListener {
         pack();
     }
 
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("transaction")) {
             addTransaction();
+        } else if (e.getActionCommand().equals("listTransactions")) {
+            showListTransactions();
         } else if (e.getActionCommand().equals("save")) {
             write();
         } else if (e.getActionCommand().equals("load")) {
             read();
         } else if (e.getActionCommand().equals("balance")) {
             showCurrentBalance();
+        } else if (e.getActionCommand().equals("bet")) {
+            try {
+                optionsPage();
+            } catch (InsufficientFundsException ex) {
+                JOptionPane.showMessageDialog(null, "ERROR! Cannot place bet.");
+            } catch (NumberFormatException exc) {
+                JOptionPane.showMessageDialog(null, "ERROR! You must enter an integer.");
+            }
         } else if (e.getActionCommand().equals("basketball") | e.getActionCommand().equals("baseball")
                 | e.getActionCommand().equals("hockey") | e.getActionCommand().equals("tennis")
                 | e.getActionCommand().equals("badminton")) {
             try {
                 doBet();
             } catch (InsufficientFundsException ex) {
-                JOptionPane.showMessageDialog(null, "Cannot place bet");
+                JOptionPane.showMessageDialog(null, "ERROR! Insufficient funds.");
+            } catch (NumberFormatException exc) {
+                JOptionPane.showMessageDialog(null, "ERROR! You must enter an integer.");
             }
         } else if (e.getActionCommand().equals("quit")) {
             System.exit(0);
@@ -247,6 +260,8 @@ public class BetBankGUI extends JFrame implements ActionListener {
         return transactionFrame;
     }
 
+    private void showListTransactions() {}
+
     private Component depositButton() {
         JButton depositButton = new JButton("Deposit");
         depositButton.setActionCommand("Deposit");
@@ -271,7 +286,7 @@ public class BetBankGUI extends JFrame implements ActionListener {
         betButton.setActionCommand("bet");
         betButton.addActionListener(e -> {
             try {
-                chooseBet();
+                optionsPage();
             } catch (InsufficientFundsException ex) {
                 JOptionPane.showMessageDialog(null, "You have insufficient funds to place this bet");
             } catch (NumberFormatException exc) {
@@ -282,23 +297,68 @@ public class BetBankGUI extends JFrame implements ActionListener {
         return betButton;
     }
 
-    private void chooseBet() throws InsufficientFundsException {
-        JPanel chooseBet = new JPanel();
-        chooseBet.setLayout(new BoxLayout(chooseBet, BoxLayout.PAGE_AXIS));
-        JLabel label1 = new JLabel("Please choose a sport to bet on from the following: ");
-        JButton basketball = new JButton();
+    @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
+    private void optionsPage() throws InsufficientFundsException {
+        JFrame chooseBet = new JFrame("Sports options");
+        chooseBet.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        chooseBet.setLayout(new BoxLayout(chooseBet.getContentPane(), BoxLayout.Y_AXIS));
+        chooseBet.getContentPane().setBackground(Color.PINK);
+
+        JLabel sportsImage = new JLabel(new ImageIcon("./data/sportsImage.jpg"));
+        sportsImage.setVisible(true);
+        sportsImage.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel title = new JLabel("Choose what sport you would like to bet on:");
+        title.setAlignmentX(Component.CENTER_ALIGNMENT);
+        title.setFont(new Font("Hind", Font.PLAIN, 25));
+        title.setForeground(Color.WHITE);
+
+        JButton basketball = new JButton("Basketball");
+        basketball.setAlignmentX(Component.CENTER_ALIGNMENT);
+        basketball.setFont(new Font("Hind", Font.PLAIN, 28));
+        basketball.setBorder(new LineBorder(Color.PINK, 1, true));
+        basketball.setBackground(new Color(30, 30, 31));
+        basketball.setForeground(Color.WHITE);
         basketball.setActionCommand("basketball");
-        JButton baseball = new JButton();
+        basketball.addActionListener(this);
+
+        JButton baseball = new JButton("Baseball");
+        baseball.setAlignmentX(Component.CENTER_ALIGNMENT);
+        baseball.setFont(new Font("Hind", Font.PLAIN, 28));
+        baseball.setBorder(new LineBorder(Color.PINK, 1, true));
+        baseball.setBackground(new Color(30, 30, 31));
+        baseball.setForeground(Color.WHITE);
         baseball.setActionCommand("baseball");
-        JButton tennis = new JButton();
-        tennis.setActionCommand("tennis");
-        JButton hockey = new JButton();
+        baseball.addActionListener(this);
+
+        JButton hockey = new JButton("Hockey");
+        hockey.setAlignmentX(Component.CENTER_ALIGNMENT);
+        hockey.setFont(new Font("Hind", Font.PLAIN, 28));
+        hockey.setBorder(new LineBorder(Color.PINK, 1, true));
+        hockey.setBackground(new Color(30, 30, 31));
+        hockey.setForeground(Color.WHITE);
         hockey.setActionCommand("hockey");
-        JButton badminton = new JButton();
+        hockey.addActionListener(this);
+
+        JButton tennis = new JButton("Tennis");
+        tennis.setAlignmentX(Component.CENTER_ALIGNMENT);
+        tennis.setFont(new Font("Hind", Font.PLAIN, 28));
+        tennis.setBorder(new LineBorder(Color.PINK, 1, true));
+        tennis.setBackground(new Color(30, 30, 31));
+        tennis.setForeground(Color.WHITE);
+        tennis.setActionCommand("switchCurrentCard");
+        tennis.addActionListener(this);
+
+        JButton badminton = new JButton("Badminton");
+        badminton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        badminton.setFont(new Font("Hind", Font.PLAIN, 28));
+        badminton.setBorder(new LineBorder(Color.PINK, 1, true));
+        badminton.setBackground(new Color(30, 30, 31));
+        badminton.setForeground(Color.WHITE);
         badminton.setActionCommand("badminton");
+        badminton.addActionListener(this);
 
-
-        chooseBet.add(label1);
+        chooseBet.add(sportsImage);
         chooseBet.add(Box.createHorizontalStrut(5));
         chooseBet.add(basketball);
         chooseBet.add(baseball);
@@ -306,6 +366,7 @@ public class BetBankGUI extends JFrame implements ActionListener {
         chooseBet.add(hockey);
         chooseBet.add(badminton);
         chooseBet.setVisible(true);
+        chooseBet.pack();
     }
 
     private PopupMenu sport(String sport) throws InsufficientFundsException {
