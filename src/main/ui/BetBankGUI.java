@@ -4,7 +4,7 @@ import model.Account;
 import model.Event;
 import model.EventLog;
 import model.Transaction;
-import model.InsufficientFundsException;
+import model.exceptions.InsufficientFundsException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -19,7 +19,7 @@ import java.io.IOException;
 import static java.lang.Integer.parseInt;
 
 // GUI for BetBank representing its various frames
-public class BetBankGUI extends JFrame implements ActionListener {
+public class BetBankGUI extends JFrame implements ActionListener, LogPrinter {
 
     public static final int WIDTH = 700;
     public static final int HEIGHT = 750;

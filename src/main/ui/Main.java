@@ -1,6 +1,6 @@
 package ui;
 
-import model.InsufficientFundsException;
+import model.exceptions.InsufficientFundsException;
 
 import java.io.FileNotFoundException;
 

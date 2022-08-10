@@ -1,5 +1,6 @@
 package model;
 
+import model.exceptions.InsufficientFundsException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

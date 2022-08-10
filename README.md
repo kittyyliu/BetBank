@@ -40,7 +40,16 @@ or bet transaction to your account
 - You can save the state of my application by selecting "Save Account" from the main menu
 - You can reload the state of my application by selecting "Load Account" from the main menu
 
-## Phase 4 Task 2
+## Phase 4: Task 2
 - 1000 was deposited successfully on Wed Aug 10 01:17:09 PDT 2022
 - 20 was bet successfully on Wed Aug 10 01:17:15 PDT 2022
 - Error! Bet of 2000 could not be placed on Wed Aug 10 01:17:25 PDT 2022
+
+## Phase 4: Task 3
+If I were to refactor my code, I would want to establish a bidirectional relationship between Account and Transaction. 
+Therefore, each transaction would have a field to indicate the account it is associated with, which would make my code 
+more organized.
+
+I would also extract repetitive code (especially in the BetBankGUI class) into separate functions and call them from my 
+original method. That way, readability is improved and I would also save space in each method so I don't go over the 
+line limit.

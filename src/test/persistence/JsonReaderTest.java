@@ -2,7 +2,6 @@ package persistence;
 
 import model.Account;
 import model.Transaction;
-import model.InsufficientFundsException;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;

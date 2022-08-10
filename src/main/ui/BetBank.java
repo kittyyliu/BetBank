@@ -6,10 +6,8 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import model.Account;
 import model.Transaction;
-import model.InsufficientFundsException;
+import model.exceptions.InsufficientFundsException;
 import java.io.*;
-
-import org.json.*;
 
 // UI code based on TellerApp
 // URL: https://github.students.cs.ubc.ca/CPSC210/TellerApp.git
