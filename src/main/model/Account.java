@@ -26,6 +26,7 @@ public class Account {
     // EFFECTS: add given amount to account balance, new balance is returned
     public int deposit(int amount) {
         balance = getBalance() + amount;
+        EventLog.getInstance().logEvent(new Event(amount + " was deposited successfully"));
         return balance;
     }
 
@@ -34,8 +35,10 @@ public class Account {
     public int bet(int amount) throws InsufficientFundsException {
         if (amount <= getBalance()) {
             balance = getBalance() - amount;
+            EventLog.getInstance().logEvent(new Event(amount + " was bet successfully"));
             return balance;
         } else {
+            EventLog.getInstance().logEvent(new Event("Error! Bet of " + amount + " could not be placed"));
             throw new InsufficientFundsException("You have insufficient funds to place this bet");
         }
     }

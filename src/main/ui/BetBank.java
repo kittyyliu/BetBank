@@ -102,6 +102,9 @@ public class BetBank {
             System.out.println("Your " + credits + " credits have been successfully deposited!\n");
             account.deposit(amount);
             account.addTransaction(b);
+            b.setTransactionAmount(amount);
+            b.setTransactionType("Deposit");
+            b.setTransactionID("d123");
             showBalance(account);
         } else {
             System.out.println("Invalid deposit amount. Please enter a positive number to deposit\n");
@@ -114,6 +117,12 @@ public class BetBank {
         System.out.print("How much would you like to bet?  $");
         int amount = input.nextInt();
 
+        betCondition(amount);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: places bet if user enters an integer >= their account balance, otherwise prints error
+    private void betCondition(int amount) throws InsufficientFundsException {
         if (amount <= 0) {
             System.out.println("You must bet a positive amount!\n");
         } else if (account.getBalance() < amount) {
@@ -130,7 +139,9 @@ public class BetBank {
                 System.out.println("Your bet of $" + betAmount + " on " + betType + " has been successfully placed");
                 account.bet(amount);
                 account.addTransaction(t);
-                showBalance(account);
+                t.setTransactionAmount(amount);
+                t.setTransactionType("Bet");
+                t.setTransactionID("b123");
             } else {
                 System.out.println("Selection is not valid");
             }

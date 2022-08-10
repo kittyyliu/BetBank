@@ -1,6 +1,8 @@
 package ui;
 
 import model.Account;
+import model.Event;
+import model.EventLog;
 import model.Transaction;
 import model.InsufficientFundsException;
 import persistence.JsonReader;
@@ -218,6 +220,7 @@ public class BetBankGUI extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "ERROR! You must enter an integer.");
             }
         } else if (e.getActionCommand().equals("quit")) {
+            printLog(EventLog.getInstance());
             System.exit(0);
         }
     }
@@ -402,7 +405,7 @@ public class BetBankGUI extends JFrame implements ActionListener {
         tennis.setBorder(new LineBorder(Color.PINK, 1, true));
         tennis.setBackground(new Color(30, 30, 31));
         tennis.setForeground(Color.WHITE);
-        tennis.setActionCommand("switchCurrentCard");
+        tennis.setActionCommand("tennis");
         tennis.addActionListener(this);
 
         JButton badminton = new JButton("Badminton");
@@ -425,13 +428,8 @@ public class BetBankGUI extends JFrame implements ActionListener {
         chooseBet.pack();
     }
 
-    private PopupMenu sport(String sport) throws InsufficientFundsException {
-        JButton chooseSport = new JButton(sport);
-        chooseSport.setActionCommand(sport);
-        doBet();
-        return null;
-    }
-
+    // MODIFIES: this
+    // EFFECTS: deposits amount into account
     private void doDeposit() {
         int parsedAmount = parseInt(amount.getText());
         Transaction transaction = new Transaction("", 0, "");
@@ -443,10 +441,15 @@ public class BetBankGUI extends JFrame implements ActionListener {
         listTransactions.addElement(transaction);
         amount.requestFocusInWindow();
         amount.setText("");
+        transaction.setTransactionID("D" + Math.round(Math.random() * (9999 - 1000 + 1) + 1));
+        transaction.setTransactionType("Deposit");
+        transaction.setTransactionAmount(parsedAmount);
         success();
         JOptionPane.showMessageDialog(null, account.getBettingHistory());
     }
 
+    // MODIFIES: this
+    // EFFECTS: places bet on chosen sport
     private void doBet() throws InsufficientFundsException {
         int parsedAmount = parseInt(amount.getText());
 
@@ -460,6 +463,9 @@ public class BetBankGUI extends JFrame implements ActionListener {
             listTransactions.addElement(transaction);
             amount.requestFocusInWindow();
             amount.setText("");
+            transaction.setTransactionID("B" + Math.round(Math.random() * (9999 - 1000 + 1) + 1));
+            transaction.setTransactionType("Bet");
+            transaction.setTransactionAmount(parsedAmount);
             success();
             JOptionPane.showMessageDialog(null, account.getBettingHistory());
         } else {
@@ -467,10 +473,20 @@ public class BetBankGUI extends JFrame implements ActionListener {
         }
     }
 
+    // EFFECTS: shows current balance of account
     private void showCurrentBalance() {
         JPanel showBalance = new JPanel();
         showBalance.setLayout(new BoxLayout(showBalance, BoxLayout.PAGE_AXIS));
         JOptionPane.showMessageDialog(null, "Account Balance = $" + account.getBalance());
         showBalance.setVisible(true);
+    }
+
+    // Method taken from AlarmSystem
+    // URL: https://github.students.cs.ubc.ca/CPSC210/AlarmSystem.git
+    // EFFECTS: displays the log of events occurred on console once application is closed
+    public void printLog(EventLog el) {
+        for (Event event : el) {
+            System.out.println(event.getDescription() + " on " + event.getDate());
+        }
     }
 }

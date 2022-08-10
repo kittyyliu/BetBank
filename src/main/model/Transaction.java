@@ -11,21 +11,9 @@ public class Transaction {
     // MODIFIES: this
     // EFFECTS: creates new transaction
     public Transaction(String id, int amount, String transaction) {
-        transactionID = id;
-        transactionAmount = amount;
-        transactionType = transaction;
-    }
-
-    public String getTransactionID() {
-        return transactionID;
-    }
-
-    public int getTransactionAmount() {
-        return transactionAmount;
-    }
-
-    public String getBetType() {
-        return transactionType;
+        this.transactionID = id;
+        this.transactionAmount = amount;
+        this.transactionType = transaction;
     }
 
     public void setTransactionID(String id) {
@@ -40,11 +28,24 @@ public class Transaction {
         this.transactionType = type;
     }
 
+    public String getTransactionID() {
+        return this.transactionID;
+    }
+
+    public int getTransactionAmount() {
+        return this.transactionAmount;
+    }
+
+    public String getBetType() {
+        return this.transactionType;
+    }
+
+
     //EFFECTS: turns transaction to string
     @Override
     public String toString() {
-        return "Transaction Id: " + this.getTransactionID() + " Amount: $" + this.getTransactionAmount() + " Type: "
-                + this.getBetType() + "]";
+        return "Transaction Id: " + getTransactionID() + " Amount: $" + getTransactionAmount() + " Type: "
+                + getBetType();
     }
 
     // code based on JsonSerializationDemo
